@@ -6,7 +6,7 @@ const express = require("express"),
 var http = require("http");
 var https = require("spdy");
 
-var LEX = require("letsencrypt-express").testing();
+var LEX = require("letsencrypt-express");
 
 var DOMAIN = "linzin.net";
 var EMAIL = "takashivue@gmai.com";
