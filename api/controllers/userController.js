@@ -1,13 +1,13 @@
 const connection = require("../mysql.js");
-const redis = require("redis")
-const client = redis.createClient(6379, 'redis')
+const redis = require("redis");
+const client = redis.createClient(6379, "localhost");
 
-client.on('connect', () => {
-  console.log('Redisに接続しました');
+client.on("connect", () => {
+  console.log("Redisに接続しました");
 });
 
-client.on('error', (err) => {
-  console.log('Redisの接続でエラーが発生しました：' + err);
+client.on("error", (err) => {
+  console.log("Redisの接続でエラーが発生しました：" + err);
 });
 
 connection.connect(function (err) {
@@ -60,48 +60,48 @@ exports.login = (req, res) => {
     pass = req.body.pass;
   let sql = "SELECT * FROM userlist WHERE email=? AND pass=?;";
   connection.query(sql, [email, pass], (err, result) => {
-    if (err) throw err
+    if (err) throw err;
     if (result.length > 0) {
       //ログイン完了処理
-      const key = require('crypto').randomBytes(8).toString('hex')
-      client.set(key, email)
-      return res.status(200).send(key)
+      const key = require("crypto").randomBytes(8).toString("hex");
+      client.set(key, email);
+      return res.status(200).send(key);
     } else {
-      return res.status(200).send(false)
+      return res.status(200).send(false);
     }
-  })
-}
+  });
+};
 
 exports.logout = (req, res) => {
-  const key = req.body.key
-  console.log('delkey:', key)
+  const key = req.body.key;
+  console.log("delkey:", key);
   client.del(key, (err, result) => {
-    if (err) throw err
-    return res.send(result)
-  })
-}
+    if (err) throw err;
+    return res.send(result);
+  });
+};
 
 exports.checkPartner = (req, res) => {
-  console.log('key:', req.body.key)
-  const key = req.body.key
+  console.log("key:", req.body.key);
+  const key = req.body.key;
   client.get(key, (err, result) => {
-    if (err) throw err
-    console.log(result)
-    if (result) return res.send(result)
-    return res.send(false)
-  })
-}
+    if (err) throw err;
+    console.log(result);
+    if (result) return res.send(result);
+    return res.send(false);
+  });
+};
 
 exports.loginAdmin = (req, res) => {
   const id = req.body.id,
     pass = req.body.pass;
   let sql = "SELECT * FROM admin WHERE id=? AND pass=? ;";
   connection.query(sql, [id, pass], (err, result) => {
-    if (err) throw err
-    if (result.length == 0) return res.status(200).send(false)
-    return res.status(200).send(true)
-  })
-}
+    if (err) throw err;
+    if (result.length == 0) return res.status(200).send(false);
+    return res.status(200).send(true);
+  });
+};
 
 /*
   create table userlist(
