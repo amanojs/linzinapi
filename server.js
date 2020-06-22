@@ -22,6 +22,10 @@ const allowCrossDomain = (req, res, next) => {
   }
 };
 
+app.get("/", (req, res) => {
+  return res.send("ok");
+});
+
 app.use(allowCrossDomain);
 
 const routes = require("./api/routes/userRoutes");
