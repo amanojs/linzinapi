@@ -10,7 +10,7 @@ client.on("error", (err) => {
   console.log("Redisの接続でエラーが発生しました：" + err);
 });
 
-connection.connect(function (err) {
+connection.connect((err) => {
   if (err) {
     console.error("error connecting: " + err.stack);
     return;
@@ -31,7 +31,7 @@ exports.existUser = (req, res) => {
   let sql = "SELECT * FROM userlist WHERE email=?;";
   connection.query(sql, email, (err, result) => {
     if (err) throw err;
-    if (result.length == 0) return res.status(200).send(true);
+    if (result.length === 0) return res.status(200).send(true);
     return res.send(false);
   });
 };
@@ -98,7 +98,7 @@ exports.loginAdmin = (req, res) => {
   let sql = "SELECT * FROM admin WHERE id=? AND pass=? ;";
   connection.query(sql, [id, pass], (err, result) => {
     if (err) throw err;
-    if (result.length == 0) return res.status(200).send(false);
+    if (result.length === 0) return res.status(200).send(false);
     return res.status(200).send(true);
   });
 };

@@ -41,8 +41,13 @@ exports.authUser = (req, res) => {
       .post(url, { email: email, pass: pass, card_url: idcard })
       .then((result) => {
         if (result) return res.status(200).send(true);
-        if (result != true) return res.send(false);
+        if (result !== true) return res.send(false);
+        return true;
+      })
+      .catch(err, (err) => {
+        throw err;
       });
+    return;
   });
 };
 
