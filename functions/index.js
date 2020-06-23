@@ -34,24 +34,15 @@ app.use(allowCrossDomain);
 //const routes = require("./api/routes/userRoutes");
 //routes(app);
 
-const userList = require("./api/controllers/userController");
-const awaitingList = require("./api/controllers/awaitingController");
-app.route("/api/users").get(userList.allUser).post(userList.addUser);
-app.route("/users/:email").get(userList.existUser);
-app.route("/login").post(userList.login);
-app.route("/logout").post(userList.logout);
-app.route("/checkPartner").post(userList.checkPartner);
+const mysql = require("mysql");
+const config = {
+  host: "160.16.63.183",
+  user: "root",
+  password: "password",
+  database: "linzin",
+};
 
-app
-  .route("/awaiting")
-  .get(awaitingList.allAwaiting)
-  .post(awaitingList.addAwaiting);
-
-app.route("/awaiting/auth").post(awaitingList.authUser);
-
-app.route("/admin/login").post(userList.loginAdmin);
-
-const connection = require("../mysql.js");
+const connection = mysql.createConnection(config);
 const redis = require("redis");
 const client = redis.createClient(6379, "160.16.63.183");
 
