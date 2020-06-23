@@ -51,6 +51,33 @@ app.route("/awaiting/auth").post(awaitingList.authUser);
 
 app.route("/admin/login").post(userList.loginAdmin);
 
+const connection = require("../mysql.js");
+const redis = require("redis");
+const client = redis.createClient(6379, "160.16.63.183");
+
+client.on("connect", () => {
+  console.log("Redisに接続しました");
+});
+
+client.on("error", (err) => {
+  console.log("Redisの接続でエラーが発生しました：" + err);
+});
+
+connection.connect((err) => {
+  if (err) {
+    console.error("error connecting: " + err.stack);
+    return;
+  }
+  console.log("connected as id " + connection.threadId);
+});
+app.get("/users", (req, res) => {
+  let sql = "SELECT * FROM userlist;";
+  connection.query(sql, (err, result, fields) => {
+    if (err) throw err;
+    return res.json(result);
+  });
+});
+
 const api = functions.https.onRequest(app);
 module.exports = { api };
 console.log("REST API server started on " + port);
