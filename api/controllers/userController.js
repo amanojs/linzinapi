@@ -1,6 +1,6 @@
 const connection = require("../mysql.js");
 const redis = require("redis");
-const client = redis.createClient(6379, "160.16.63.183");
+const client = redis.createClient(6379, "localhost");//160.16.63.183
 
 client.on("connect", () => {
   console.log("Redisに接続しました");
