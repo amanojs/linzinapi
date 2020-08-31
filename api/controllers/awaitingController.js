@@ -66,6 +66,6 @@ exports.removeAwaiting = (req, res) => {
     email VARCHAR(256) NOT NULL,
     pass VARCHAR(256) NOT NULL,
     idcard VARCHAR(256) NOT NULL,
-    date: DATE NOT NULL
+    date DATE NOT NULL
   );
 */
