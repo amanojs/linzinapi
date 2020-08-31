@@ -3,11 +3,13 @@ const chalk = require("chalk");
 const debug = require("debug")("app:mysql")
 
 const config = {
-  host: process.env.DB_HOST,// mysql
+  host: "mysql",// mysql
   user: process.env.DB_USER,// root 
   password: process.env.DB_PASS,// password
   database: process.env.DB_NAME,
 };
+
+debug(config)
 
 const connection = mysql.createConnection(config);
 connection.connect(function (err) {
