@@ -1,37 +1,41 @@
 
-const express = require("express"),
-  app = express(),
-  port = 23450,
-  bodyParser = require("body-parser");
+const express = require("express")
+const bodyParser = require("body-parser")
+const debug = require("debug")("app")
+const chalk = require("chalk")
+const logger = require("morgan")
+const cookieParser = require("cookie-parser")
+const session = require("express-session")
 
+const app = express()
+const port = 23450
+
+// middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(logger("dev"))
+app.use(cookieParser());
+app.use(session({
+  secret: "linzin",
+  resave: false,
+  saveUninitialized: true
+}));
+require("dotenv").config()
+require("express-ws")(app)
+const allowCrossDomain = require("./api/config/cors")
+app.use(allowCrossDomain);
 
-const allowCrossDomain = (req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Content-Type, Authorization, access_token"
-  );
 
-  // intercept OPTIONS method
-  if ("OPTIONS" === req.method) {
-    res.send(200);
-  } else {
-    next();
-    return;
-  }
-  return;
-};
+// APIrouting
+const userRouter = require("./api/routes/userRoutes")()
+const callRouter = require("./api/routes/callRoutes")()
+app.use("/", userRouter)
+app.use("/ws", callRouter)
 
 app.get("/", (req, res) => {
   res.send("ok");
 });
 
-app.use(allowCrossDomain);
-
-const routes = require("./api/routes/userRoutes");
-routes(app);
-
-app.listen(port)
+app.listen(port, () => {
+  debug("REST API server started on " + chalk.yellow(port))
+});

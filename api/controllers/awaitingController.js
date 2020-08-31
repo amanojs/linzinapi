@@ -1,4 +1,4 @@
-const connection = require("../mysql.js");
+const connection = require("../config/mysql.js");
 const axios = require("axios");
 
 exports.allAwaiting = (req, res) => {

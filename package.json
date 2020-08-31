@@ -9,8 +9,15 @@
   },
   "dependencies": {
     "axios": "^0.19.2",
+    "chalk": "^4.1.0",
+    "cookie-parser": "^1.4.5",
+    "debug": "^4.1.1",
     "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "express-ws": "^4.0.0",
+    "morgan": "^1.10.0",
     "mysql": "^2.18.1",
+    "nodemon": "^2.0.4",
     "redis": "^3.0.2"
   },
   "devDependencies": {

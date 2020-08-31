@@ -1,4 +1,4 @@
-const connection = require("../mysql.js");
+const connection = require("../config/mysql.js");
 const redis = require("redis");
 const client = redis.createClient(6379, "localhost");//160.16.63.183
 
@@ -8,14 +8,6 @@ client.on("connect", () => {
 
 client.on("error", (err) => {
   console.log("Redisの接続でエラーが発生しました：" + err);
-});
-
-connection.connect((err) => {
-  if (err) {
-    console.error("error connecting: " + err.stack);
-    return;
-  }
-  console.log("connected as id " + connection.threadId);
 });
 
 exports.allUser = (req, res) => {

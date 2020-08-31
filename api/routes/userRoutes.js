@@ -1,19 +1,26 @@
-module.exports = function (app) {
+const express = require("express")
+
+const userRouter = express.Router()
+
+module.exports = () => {
+
   const userList = require("../controllers/userController");
   const awaitingList = require("../controllers/awaitingController");
 
-  app.route("/users").get(userList.allUser).post(userList.addUser);
-  app.route("/users/:email").get(userList.existUser);
-  app.route("/login").post(userList.login);
-  app.route("/logout").post(userList.logout);
-  app.route("/checkPartner").post(userList.checkPartner);
+  userRouter.route("/users").get(userList.allUser).post(userList.addUser);
+  userRouter.route("/users/:email").get(userList.existUser);
+  userRouter.route("/login").post(userList.login)
+  userRouter.route("/logout").post(userList.logout)
+  userRouter.route("/checkPartner").post(userList.checkPartner)
 
-  app
+  userRouter
     .route("/awaiting")
     .get(awaitingList.allAwaiting)
     .post(awaitingList.addAwaiting);
 
-  app.route("/awaiting/auth").post(awaitingList.authUser);
+  userRouter.route("/awaiting/auth").post(awaitingList.authUser);
 
-  app.route("/admin/login").post(userList.loginAdmin);
+  userRouter.route("/admin/login").post(userList.loginAdmin)
+
+  return userRouter
 };
