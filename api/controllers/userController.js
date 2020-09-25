@@ -95,6 +95,20 @@ exports.loginAdmin = (req, res) => {
   });
 };
 
+exports.getHistory = (req, res) => {
+  if ("email" in req.query) {
+    const email = req.query.email
+    const sql = "SELECT * FROM running WHERE end IS NOT NULL AND email = ?"
+    connection.query(sql, [email], (err, result) => {
+      if (err) {
+        throw err
+      }
+      return res.json(result)
+    })
+  }
+  return res.json([])
+}
+
 /*
   create table userlist(
     email VARCHAR(256) PRIMARY KEY NOT NULL,

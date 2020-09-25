@@ -12,6 +12,7 @@ module.exports = () => {
   userRouter.route("/login").post(userList.login)
   userRouter.route("/logout").post(userList.logout)
   userRouter.route("/checkPartner").post(userList.checkPartner)
+  userRouter.route("/getHistory").get(userList.getHistory)
 
   userRouter
     .route("/awaiting")
